@@ -15,14 +15,14 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { Injectable, OnApplicationShutdown, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { env } from '../config/env.js';
 import { createKafkaConsumer } from '../config/kafka.js';
 import { LoggerPlus } from '../logger/logger-plus.js';
 import { TraceContextProvider } from '../trace/trace-context.provider.js';
 import { KafkaEventDispatcherService } from './kafka-event-dispatcher.service.js';
 import { getKafkaTopicsBy } from './kafka-topic.properties.js';
-import { Injectable, OnApplicationShutdown, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { MyKafkaEvent } from './my-kafka-event.js';
+import type { MyKafkaEvent } from './my-kafka-event.js';
 
 const { SERVICE } = env;
 

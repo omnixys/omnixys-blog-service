@@ -15,12 +15,12 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import { Injectable, type OnModuleInit } from '@nestjs/common';
+import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core';
 import { LoggerPlusService } from '../logger/logger-plus.service.js';
 import { TraceContextProvider } from '../trace/trace-context.provider.js';
 import { KAFKA_EVENT_METADATA, KAFKA_HANDLER } from './decorators/kafka-event.decorator.js';
-import { type KafkaEventContext, KafkaEventHandlerFn } from './interface/kafka-event.interface.js';
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core';
+import type { KafkaEventContext, KafkaEventHandlerFn } from './interface/kafka-event.interface.js';
 
 interface RegisteredHandler {
   handler: object;

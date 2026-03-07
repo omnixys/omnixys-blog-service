@@ -1,0 +1,305 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["blog"]
+}
+
+enum ReportStatus {
+  DRAFT
+  IN_REVIEW
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+
+  @@schema("blog")
+}
+
+enum Visibility {
+  PRIVATE
+  UNLISTED
+  PUBLIC
+  ORGANIZATION
+
+  @@schema("blog")
+}
+
+enum ExportType {
+  PDF
+  DOCX
+  HTML
+  MARKDOWN
+  JSON
+
+  @@schema("blog")
+}
+
+enum SyncStatus {
+  LOCAL_ONLY
+  PENDING_SYNC
+  SYNCED
+  CONFLICT
+
+  @@schema("blog")
+}
+
+enum ExportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+
+  @@schema("blog")
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  CLAP
+  INSIGHTFUL
+
+  @@schema("blog")
+}
+
+model Author {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  username       String   @unique
+  displayName    String
+  bio            String?
+  avatarUrl      String?
+  organizationId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  reports         Report[]
+  mediaAssets     MediaAsset[]
+  exportJobs      ExportJob[]
+  comments        Comment[]
+  reactions       Reaction[]
+  readingStats    ReadingStat[]
+  draftSyncStates DraftSyncState[]
+
+  @@index([username])
+  @@index([userId])
+  @@schema("blog")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reports Report[]
+
+  @@index([slug])
+  @@schema("blog")
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reportTags ReportTag[]
+
+  @@index([slug])
+  @@schema("blog")
+}
+
+model Report {
+  id            String       @id @default(uuid())
+  authorId      String
+  title         String
+  slug          String       @unique
+  excerpt       String?
+  coverImageUrl String?
+  contentJson   Json
+  contentText   String
+  status        ReportStatus @default(DRAFT)
+  visibility    Visibility   @default(PRIVATE)
+  categoryId    String?
+  publishedAt   DateTime?
+  scheduledAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  archivedAt    DateTime?
+
+  author         Author          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  category       Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  versions       ReportVersion[]
+  tags           ReportTag[]
+  mediaAssets    MediaAsset[]
+  exportJobs     ExportJob[]
+  draftSyncState DraftSyncState?
+  comments       Comment[]
+  reactions      Reaction[]
+  readingStats   ReadingStat[]
+
+  @@index([authorId])
+  @@index([status])
+  @@index([visibility])
+  @@index([publishedAt])
+  @@index([scheduledAt])
+  @@index([categoryId])
+  @@index([authorId, status])
+  @@index([authorId, publishedAt])
+  @@schema("blog")
+}
+
+model ReportVersion {
+  id            String   @id @default(uuid())
+  reportId      String
+  versionNumber Int
+  title         String
+  contentJson   Json
+  contentText   String
+  changeSummary String?
+  createdBy     String
+  createdAt     DateTime @default(now())
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([reportId, versionNumber])
+  @@index([reportId, createdAt])
+  @@schema("blog")
+}
+
+model ReportTag {
+  reportId  String
+  tagId     String
+  createdAt DateTime @default(now())
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([reportId, tagId])
+  @@index([tagId])
+  @@schema("blog")
+}
+
+model MediaAsset {
+  id         String   @id @default(uuid())
+  reportId   String?
+  authorId   String
+  mimeType   String
+  fileName   String
+  storageKey String   @unique
+  fileSize   Int
+  createdAt  DateTime @default(now())
+
+  report Report? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  author Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([authorId])
+  @@index([mimeType])
+  @@schema("blog")
+}
+
+model ExportJob {
+  id            String          @id @default(uuid())
+  reportId      String
+  authorId      String
+  exportType    ExportType
+  storageKey    String?
+  status        ExportJobStatus @default(PENDING)
+  createdAt     DateTime        @default(now())
+  completedAt   DateTime?
+  failureReason String?
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([authorId])
+  @@index([status])
+  @@index([createdAt])
+  @@schema("blog")
+}
+
+model DraftSyncState {
+  id            String     @id @default(uuid())
+  reportId      String     @unique
+  authorId      String
+  localVersion  Int        @default(1)
+  serverVersion Int        @default(1)
+  lastSyncedAt  DateTime?
+  syncStatus    SyncStatus @default(LOCAL_ONLY)
+  conflictState Json?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId])
+  @@index([syncStatus])
+  @@schema("blog")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  reportId  String
+  authorId  String
+  parentId  String?
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  report  Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author  Author    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentThread", fields: [parentId], references: [id], onDelete: SetNull)
+  replies Comment[] @relation("CommentThread")
+
+  @@index([reportId])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([createdAt])
+  @@schema("blog")
+}
+
+model Reaction {
+  id        String       @id @default(uuid())
+  reportId  String
+  authorId  String
+  type      ReactionType
+  createdAt DateTime     @default(now())
+
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([reportId, authorId, type])
+  @@index([reportId])
+  @@index([authorId])
+  @@schema("blog")
+}
+
+model ReadingStat {
+  id                  String   @id @default(uuid())
+  reportId            String
+  authorId            String?
+  viewedAt            DateTime @default(now())
+  readDurationSeconds Int      @default(0)
+  source              String?
+  sessionId           String?
+  userAgent           String?
+  referrer            String?
+
+  report Report  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author Author? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([reportId])
+  @@index([authorId])
+  @@index([viewedAt])
+  @@index([reportId, viewedAt])
+  @@schema("blog")
+}

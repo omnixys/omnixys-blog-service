@@ -1,4 +1,4 @@
-import type { KeycloakRawOutput } from '../auth/dto/kc-rwa.dto.ts';
+import type { KeycloakRawOutput } from '../auth/dto/kc-rwa.dto.ts.js';
 import 'fastify';
 
 declare module 'fastify' {

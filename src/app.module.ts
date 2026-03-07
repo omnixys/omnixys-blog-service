@@ -20,25 +20,46 @@ import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { AnalyticsModule } from './analytics/analytics.module.ts';
+import { AuthModule } from './auth/auth.module.ts';
 // import { AdminModule } from './admin/admin.module.js';
 import { env } from './config/env.js';
+import { DraftModule } from './draft/draft.module.ts';
+import { ExportModule } from './export/export.module.ts';
 // import { ScalarsModule } from './core/scalars/scalar.module.js';
 // import { HandlerModule } from './handlers/handler.module.js';
 // import { HealthModule } from './health/health.module.js';
 import { KafkaModule } from './kafka/kafka.module.js';
 import { LoggerModule } from './logger/logger.module.js';
 import { RequestLoggerMiddleware } from './logger/request-logger.middleware.js';
+import { PrismaModule } from './prisma/prisma.module.js';
+import { PublishModule } from './publish/publish.module.ts';
+import { ReportModule } from './report/report.module.ts';
+import { SearchModule } from './search/search.module.ts';
+import './common/enums/graphql.enums.js';
+import { ScalarsModule } from './core/scalars/scalar.module.ts';
 
 const { SCHEMA_TARGET } = env;
 
 @Module({
   imports: [
+    AuthModule,
+    PrismaModule,
+    // CacheModule,
+    // AuthorModule,
+    ReportModule,
+    DraftModule,
+    PublishModule,
+    ExportModule,
+    // MediaModule,
+    SearchModule,
+    AnalyticsModule,
     // AdminModule,
     // HandlerModule,
     // HealthModule,
     LoggerModule,
     KafkaModule,
-    // ScalarsModule,
+    ScalarsModule,
     // GraphQLModule.forRoot<ApolloDriverConfig>(graphQlModuleOptions),
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({

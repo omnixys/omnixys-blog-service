@@ -21,20 +21,20 @@
  * Macht KafkaProducerService und KafkaConsumerService global verfügbar.
  */
 
+import { Global, Module, OnApplicationShutdown } from '@nestjs/common';
+import { DiscoveryModule, Reflector } from '@nestjs/core';
 import { kafka } from '../config/kafka.js';
 import { LoggerPlusService } from '../logger/logger-plus.service.js';
 import { TraceModule } from '../trace/trace.module.js';
 import {
-  kafkaBootstrapProvider,
   KAFKA_INSTANCE,
   KAFKA_PRODUCER,
+  kafkaBootstrapProvider,
 } from './kafka-bootstrap.provider.js';
 import { KafkaConsumerService } from './kafka-consumer.service.js';
 import { KafkaEventDispatcherService } from './kafka-event-dispatcher.service.js';
 import { KafkaHeaderBuilder } from './kafka-header-builder.js';
 import { KafkaProducerService } from './kafka-producer.service.js';
-import { Global, Module, OnApplicationShutdown } from '@nestjs/common';
-import { DiscoveryModule, Reflector } from '@nestjs/core';
 
 @Global()
 @Module({

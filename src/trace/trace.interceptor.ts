@@ -15,12 +15,16 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { TraceContextProvider } from './trace-context.provider.js';
-import { TraceContextUtil, TraceContext } from './trace-context.util.js';
-import { Injectable } from '@nestjs/common';
-import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
+import {
+  type CallHandler,
+  type ExecutionContext,
+  Injectable,
+  type NestInterceptor,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { TraceContextProvider } from './trace-context.provider.js';
+import { TraceContext, TraceContextUtil } from './trace-context.util.js';
 
 @Injectable()
 export class TraceInterceptor<T = unknown> implements NestInterceptor<T, T> {
@@ -28,10 +32,7 @@ export class TraceInterceptor<T = unknown> implements NestInterceptor<T, T> {
 
   intercept(context: ExecutionContext, next: CallHandler<T>): Observable<T> {
     const request = context.switchToHttp().getRequest<Request>();
-    const headers = (request?.headers ?? {}) as Record<
-      string,
-      string | string[]
-    >;
+    const headers = (request?.headers ?? {}) as Record<string, string | string[]>;
 
     // Extrahiere Trace-Kontext mit klar definiertem Typ
     const trace: TraceContext = TraceContextUtil.fromHeaders(headers);
