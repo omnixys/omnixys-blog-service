@@ -15,9 +15,9 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { getLogger } from './get-logger.js';
 import { Injectable, type NestMiddleware } from '@nestjs/common';
-import { type NextFunction, type Request, type Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { getLogger } from './get-logger.js';
 
 /**
  * Die Middleware (-Funktion) wird vor dem "Route Handler" aufgerufen.
@@ -35,12 +35,7 @@ export class RequestLoggerMiddleware implements NestMiddleware {
    */
   use(req: Request, _res: Response, next: NextFunction): void {
     const { method, originalUrl, headers } = req;
-    this.#logger.debug(
-      'method=%s, url=%s, header=%o',
-      method,
-      originalUrl,
-      headers,
-    );
+    this.#logger.debug('method=%s, url=%s, header=%o', method, originalUrl, headers);
     next();
   }
 }

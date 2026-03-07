@@ -15,19 +15,19 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { ApolloFederationDriver, type ApolloFederationDriverConfig } from "@nestjs/apollo";
-import { type MiddlewareConsumer, Module, type NestModule } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { GraphQLModule } from "@nestjs/graphql";
-import type { FastifyReply, FastifyRequest } from "fastify";
+import { ApolloFederationDriver, type ApolloFederationDriverConfig } from '@nestjs/apollo';
+import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 // import { AdminModule } from './admin/admin.module.js';
-import { env } from "./config/env.js";
+import { env } from './config/env.js';
 // import { ScalarsModule } from './core/scalars/scalar.module.js';
 // import { HandlerModule } from './handlers/handler.module.js';
 // import { HealthModule } from './health/health.module.js';
-import { KafkaModule } from "./kafka/kafka.module.js";
-import { LoggerModule } from "./logger/logger.module.js";
-import { RequestLoggerMiddleware } from "./logger/request-logger.middleware.js";
+import { KafkaModule } from './kafka/kafka.module.js';
+import { LoggerModule } from './logger/logger.module.js';
+import { RequestLoggerMiddleware } from './logger/request-logger.middleware.js';
 
 const { SCHEMA_TARGET } = env;
 
@@ -48,13 +48,13 @@ const { SCHEMA_TARGET } = env;
       useFactory: (cfg: ConfigService) => ({
         // autoSchemaFile: join(process.cwd(), 'dist/schema.gql'),
         autoSchemaFile:
-          SCHEMA_TARGET === "tmp"
-            ? { path: "/tmp/schema.gql", federation: 2 }
-            : SCHEMA_TARGET === "false"
+          SCHEMA_TARGET === 'tmp'
+            ? { path: '/tmp/schema.gql', federation: 2 }
+            : SCHEMA_TARGET === 'false'
               ? false
-              : { path: "dist/schema.gql", federation: 2 },
+              : { path: 'dist/schema.gql', federation: 2 },
         sortSchema: true,
-        playground: cfg.get("GRAPHQL_PLAYGROUND") === "true",
+        playground: cfg.get('GRAPHQL_PLAYGROUND') === 'true',
         csrfPrevention: false,
         introspection: true,
 
@@ -70,6 +70,6 @@ const { SCHEMA_TARGET } = env;
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(RequestLoggerMiddleware).forRoutes("*");
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
   }
 }

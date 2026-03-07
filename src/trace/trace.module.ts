@@ -15,10 +15,10 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { TraceContextProvider } from './trace-context.provider.js';
-import { TraceInterceptor } from './trace.interceptor.js';
 import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TraceInterceptor } from './trace.interceptor.js';
+import { TraceContextProvider } from './trace-context.provider.js';
 
 /**
  * Das Modul besteht aus allgemeinen Services, z.B. MailService.

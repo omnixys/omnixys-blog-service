@@ -15,17 +15,17 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { hostname } from "node:os";
-import type { HttpsOptions } from "@nestjs/common/interfaces/external/https-options.interface.js";
-import { env } from "./env.js";
-import { httpsOptions } from "./https.js";
-import { keycloakConfig } from "./keycloak.js";
+import { hostname } from 'node:os';
+import type { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface.js';
+import { env } from './env.js';
+import { httpsOptions } from './https.js';
+import { keycloakConfig } from './keycloak.js';
 
 export interface NodeConfig {
   host: string;
   port: number;
   httpsOptions: HttpsOptions | undefined;
-  nodeEnv: "development" | "production" | "test";
+  nodeEnv: 'development' | 'production' | 'test';
   tempo: string;
   protocoll: boolean;
   keysPath: string;
@@ -71,7 +71,7 @@ export const nodeConfig: NodeConfig = {
   host: hostname(),
   port: PORT,
   httpsOptions,
-  nodeEnv: NODE_ENV as "development" | "production" | "test",
+  nodeEnv: NODE_ENV as 'development' | 'production' | 'test',
   tempo: TEMPO_URI,
   protocoll: HTTPS,
   keysPath: KEYS_PATH,

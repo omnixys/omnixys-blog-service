@@ -15,20 +15,20 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
+import {
+  context,
+  type SpanContext,
+  SpanKind,
+  SpanStatusCode,
+  type Tracer,
+  trace,
+} from '@opentelemetry/api';
+import { format } from 'util';
 import { env } from '../config/env.js';
 import { KafkaTopics } from '../kafka/kafka-topic.properties.js';
 import type { TraceContext } from '../trace/trace-context.util.js';
 import { getLogger } from './get-logger.js';
 import { getGlobalKafkaProducer } from './logger-plus.service.js';
-import {
-  context,
-  SpanKind,
-  SpanStatusCode,
-  trace,
-  type SpanContext,
-  type Tracer,
-} from '@opentelemetry/api';
-import { format } from 'util';
 
 export const LogLevel = {
   TRACE: 'TRACE',
@@ -51,9 +51,7 @@ export interface LogEventDTO {
 function normalizeForLogging(arg: unknown): unknown {
   if (arg && typeof arg === 'object') {
     // Wandelt class-transformer-Objekte in Plain Objects um
-    return Array.isArray(arg)
-      ? arg.map(normalizeForLogging)
-      : JSON.parse(JSON.stringify(arg));
+    return Array.isArray(arg) ? arg.map(normalizeForLogging) : JSON.parse(JSON.stringify(arg));
   }
   return arg;
 }

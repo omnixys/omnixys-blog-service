@@ -15,23 +15,23 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { join } from "node:path";
-import type { ApolloFederationDriverConfig } from "@nestjs/apollo";
-import { ApolloDriver, type ApolloDriverConfig, ApolloFederationDriver } from "@nestjs/apollo";
-import { env } from "./env.js";
+import { join } from 'node:path';
+import type { ApolloFederationDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver, type ApolloDriverConfig, ApolloFederationDriver } from '@nestjs/apollo';
+import { env } from './env.js';
 
 const { SCHEMA_TARGET } = env;
 
 // Utility zur sicheren Pfadwahl
 function getSafeSchemaPath(): string | false {
   const target = SCHEMA_TARGET;
-  if (target === "false") {
+  if (target === 'false') {
     return false;
   }
-  if (target === "tmp") {
-    return "/tmp/schema.gql";
+  if (target === 'tmp') {
+    return '/tmp/schema.gql';
   }
-  return join(process.cwd(), target, "schema.gql");
+  return join(process.cwd(), target, 'schema.gql');
 }
 
 /**
@@ -50,11 +50,11 @@ export const graphQlModuleOptions: ApolloDriverConfig = {
  */
 export const graphQlModuleOptions2: ApolloFederationDriverConfig = {
   autoSchemaFile:
-    SCHEMA_TARGET === "tmp"
-      ? { path: "/tmp/schema.gql", federation: 2 }
-      : SCHEMA_TARGET === "false"
+    SCHEMA_TARGET === 'tmp'
+      ? { path: '/tmp/schema.gql', federation: 2 }
+      : SCHEMA_TARGET === 'false'
         ? false
-        : { path: "dist/schema.gql", federation: 2 },
+        : { path: 'dist/schema.gql', federation: 2 },
   driver: ApolloFederationDriver,
   playground: false,
 };

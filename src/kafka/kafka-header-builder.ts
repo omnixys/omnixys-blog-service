@@ -15,8 +15,8 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import type { TraceContext } from '../trace/trace-context.util.js';
 import { randomUUID } from 'crypto';
+import type { TraceContext } from '../trace/trace-context.util.js';
 
 export const KAFKA_HEADER_KEYS = {
   TRACE_ID: 'x-trace-id',
@@ -28,9 +28,7 @@ export const KAFKA_HEADER_KEYS = {
   B3_SAMPLED: 'x-b3-sampled',
 } as const;
 
-export function buildKafkaHeaders(
-  headers: Record<string, string> = {},
-): Record<string, Buffer> {
+export function buildKafkaHeaders(headers: Record<string, string> = {}): Record<string, Buffer> {
   return Object.entries({
     [KAFKA_HEADER_KEYS.TRACE_ID]: randomUUID(),
     ...headers,

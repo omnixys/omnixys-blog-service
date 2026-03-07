@@ -79,9 +79,7 @@ export type KafkaTopicsType = typeof KafkaTopics;
 export function getAllKafkaTopics(): readonly string[] {
   const flatten = (obj: Record<string, unknown>): string[] =>
     Object.values(obj).flatMap((value) =>
-      typeof value === 'string'
-        ? [value]
-        : flatten(value as Record<string, unknown>),
+      typeof value === 'string' ? [value] : flatten(value as Record<string, unknown>),
     );
   return flatten(KafkaTopics);
 }
@@ -118,15 +116,11 @@ export function getServiceTopics() {
 /**
  * Returns a single topic by name, type-safe and guaranteed string.
  */
-export function getTopic<K extends keyof (typeof KafkaTopics)[typeof SERVICE]>(
-  key: K,
-): string {
+export function getTopic<K extends keyof (typeof KafkaTopics)[typeof SERVICE]>(key: K): string {
   const topics = getServiceTopics();
   const topic = topics[key];
   if (!topic) {
-    throw new Error(
-      `Kafka topic "${String(key)}" not defined for service "${String(SERVICE)}"`,
-    );
+    throw new Error(`Kafka topic "${String(key)}" not defined for service "${String(SERVICE)}"`);
   }
   return topic; // 🔹 garantiert string
 }
@@ -139,9 +133,7 @@ export function getTopics<K extends keyof (typeof KafkaTopics)[typeof SERVICE]>(
   return keys.map((key) => {
     const topic = topics[key];
     if (!topic) {
-      throw new Error(
-        `Kafka topic "${String(key)}" not defined for service "${String(SERVICE)}"`,
-      );
+      throw new Error(`Kafka topic "${String(key)}" not defined for service "${String(SERVICE)}"`);
     }
     return topic;
   });

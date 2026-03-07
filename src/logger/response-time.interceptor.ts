@@ -15,7 +15,6 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { getLogger } from './get-logger.js';
 import { Temporal } from '@js-temporal/polyfill';
 import {
   type CallHandler,
@@ -23,10 +22,11 @@ import {
   Injectable,
   type NestInterceptor,
 } from '@nestjs/common';
-import { type Response } from 'express';
-import { type Observable } from 'rxjs';
-import { type TapObserver } from 'rxjs/internal/operators/tap';
+import type { Response } from 'express';
+import type { Observable } from 'rxjs';
+import type { TapObserver } from 'rxjs/internal/operators/tap';
 import { tap } from 'rxjs/operators';
+import { getLogger } from './get-logger.js';
 
 /**
  * `ResponseTimeInterceptor` protokolliert die Antwortzeit und den Statuscode
@@ -52,12 +52,7 @@ export class ResponseTimeInterceptor implements NestInterceptor {
           this.#logger.debug('Response time: %d ms', responseTime);
           return;
         }
-        this.#logger.debug(
-          'Response time: %d ms, %d %s',
-          responseTime,
-          statusCode,
-          statusMessage,
-        );
+        this.#logger.debug('Response time: %d ms, %d %s', responseTime, statusCode, statusMessage);
       },
       next: this.#empty,
       error: this.#empty,

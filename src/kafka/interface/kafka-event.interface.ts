@@ -30,11 +30,7 @@ export interface KafkaEventHandler {
    * @param data  Deserialisierte Nutzlast
    * @param context  Kafka-Metadaten (Header, Partition usw.)
    */
-  handle(
-    topic: string,
-    data: unknown,
-    context: KafkaEventContext,
-  ): Promise<void>;
+  handle(topic: string, data: unknown, context: KafkaEventContext): Promise<void>;
 }
 
 /** Alternative Typalias für reine Funktionshandler */

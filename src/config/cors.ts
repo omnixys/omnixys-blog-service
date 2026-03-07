@@ -15,7 +15,7 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import type { FastifyCorsOptions } from "@fastify/cors";
+import type { FastifyCorsOptions } from '@fastify/cors';
 
 /**
  * @file cors.ts
@@ -52,9 +52,9 @@ export const corsOptions: FastifyCorsOptions = {
    * - Enthält lokale Entwicklungs-Frontends und ggf. Tools wie Apollo Studio.
    */
   origin: [
-    "https://www.omnixys.com",
-    "http://localhost:3000", // lokales Next.js-Frontend
-    "https://studio.apollographql.com", // GraphQL Playground / Apollo Studio
+    'https://www.omnixys.com',
+    'http://localhost:3000', // lokales Next.js-Frontend
+    'https://studio.apollographql.com', // GraphQL Playground / Apollo Studio
   ],
 
   // ======================================================
@@ -67,7 +67,7 @@ export const corsOptions: FastifyCorsOptions = {
    * @remarks
    * Umfasst alle gängigen REST- und GraphQL-Operationen.
    */
-  methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'],
 
   // ======================================================
   // 🔑 Authentifizierung / Credentials
@@ -95,18 +95,18 @@ export const corsOptions: FastifyCorsOptions = {
    * sowie optionale Conditional-Header (`If-Match`, `If-None-Match`).
    */
   allowedHeaders: [
-    "Origin",
-    "Accept",
-    "Content-Type",
-    "Authorization",
-    "Allow",
-    "Content-Length",
-    "Date",
-    "If-Match",
-    "If-None-Match",
-    "sec-fetch-mode",
-    "sec-fetch-site",
-    "sec-fetch-dest",
+    'Origin',
+    'Accept',
+    'Content-Type',
+    'Authorization',
+    'Allow',
+    'Content-Length',
+    'Date',
+    'If-Match',
+    'If-None-Match',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'sec-fetch-dest',
   ],
 
   // ======================================================
@@ -121,16 +121,16 @@ export const corsOptions: FastifyCorsOptions = {
    * freizugeben (z. B. CSP, HSTS, ETag).
    */
   exposedHeaders: [
-    "Content-Type",
-    "Content-Length",
-    "ETag",
-    "Location",
-    "Date",
-    "Last-Modified",
-    "Access-Control-Allow-Origin",
-    "Content-Security-Policy",
-    "Strict-Transport-Security",
-    "X-Content-Type-Options",
+    'Content-Type',
+    'Content-Length',
+    'ETag',
+    'Location',
+    'Date',
+    'Last-Modified',
+    'Access-Control-Allow-Origin',
+    'Content-Security-Policy',
+    'Strict-Transport-Security',
+    'X-Content-Type-Options',
   ],
 
   // ======================================================

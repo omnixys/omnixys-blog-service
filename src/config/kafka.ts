@@ -17,9 +17,9 @@
 
 // ✅ Zentrale Kafka-Instanz mit korrektem Partitioner und Timeouts
 
-import type { Consumer } from "kafkajs";
-import { Kafka, logLevel, Partitioners } from "kafkajs";
-import { env } from "./env.js";
+import type { Consumer } from 'kafkajs';
+import { Kafka, logLevel, Partitioners } from 'kafkajs';
+import { env } from './env.js';
 
 const { SERVICE, KAFKA_BROKER } = env;
 

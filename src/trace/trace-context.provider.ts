@@ -5,9 +5,9 @@
  * For full license text, see <https://www.gnu.org/licenses/>.
  */
 
-import type { TraceContext } from './trace-context.util.js';
-import { Injectable, Scope } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { Injectable, Scope } from '@nestjs/common';
+import type { TraceContext } from './trace-context.util.js';
 
 /**
  * Globale TraceContext-Verwaltung über AsyncLocalStorage.
@@ -23,17 +23,17 @@ export class TraceContextProvider {
    * @param fn  Callback
    */
   static run<T>(ctx: TraceContext, fn: () => T): T {
-    return this.storage.run(ctx, fn);
+    return TraceContextProvider.storage.run(ctx, fn);
   }
 
   /** Gibt den aktuellen TraceContext zurück, falls vorhanden. */
   static get(): TraceContext | undefined {
-    return this.storage.getStore();
+    return TraceContextProvider.storage.getStore();
   }
 
   /** Prüft, ob ein TraceContext aktiv ist. */
   static has(): boolean {
-    return !!this.storage.getStore();
+    return !!TraceContextProvider.storage.getStore();
   }
 
   /** Setzt den aktuellen Kontext manuell (z. B. im Consumer). */

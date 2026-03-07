@@ -15,17 +15,17 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import type { HttpsOptions } from "@nestjs/common/interfaces/external/https-options.interface.js";
-import { env } from "./env.js";
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import type { HttpsOptions } from '@nestjs/common/interfaces/external/https-options.interface.js';
+import { env } from './env.js';
 
 const tlsDir = resolve(env.KEYS_PATH);
 
 // public/private keys und Zertifikat fuer TLS
 export const httpsOptions: HttpsOptions | undefined = env.HTTPS
   ? {
-      key: readFileSync(resolve(tlsDir, "key.pem")),
-      cert: readFileSync(resolve(tlsDir, "certificate.crt")),
+      key: readFileSync(resolve(tlsDir, 'key.pem')),
+      cert: readFileSync(resolve(tlsDir, 'certificate.crt')),
     }
   : undefined;

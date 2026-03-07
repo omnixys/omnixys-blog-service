@@ -3,11 +3,11 @@
  * © 2025 Caleb Gyamfi - Omnixys Technologies
  */
 
-import { DiagConsoleLogger, DiagLogLevel, diag } from "@opentelemetry/api";
-import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { AsyncHooksContextManager } from "@opentelemetry/context-async-hooks";
-import { PrometheusExporter } from "@opentelemetry/exporter-prometheus";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { DiagConsoleLogger, DiagLogLevel, diag } from '@opentelemetry/api';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks';
+import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import {
   defaultResource,
   detectResources,
@@ -16,11 +16,11 @@ import {
   osDetector,
   processDetector,
   resourceFromAttributes,
-} from "@opentelemetry/resources";
-import { NodeSDK } from "@opentelemetry/sdk-node";
+} from '@opentelemetry/resources';
+import { NodeSDK } from '@opentelemetry/sdk-node';
 
-import { LoggerPlus } from "../logger/logger-plus.js";
-import { env } from "./env.js";
+import { LoggerPlus } from '../logger/logger-plus.js';
+import { env } from './env.js';
 
 const { SERVICE, TEMPO_URI, PORT } = env;
 
@@ -29,12 +29,12 @@ const OTEL_COLLECTOR = TEMPO_URI;
 
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO);
 
-const logger = new LoggerPlus("otel.ts");
+const logger = new LoggerPlus('otel.ts');
 
 let sdk: NodeSDK | undefined;
 
 export async function startOtelSDK(): Promise<void> {
-  logger.log("🔧 Starte OpenTelemetry Initialisierung…");
+  logger.log('🔧 Starte OpenTelemetry Initialisierung…');
 
   // ----------------- Resource Detection ------------------
   const detected = detectResources({
@@ -45,9 +45,9 @@ export async function startOtelSDK(): Promise<void> {
     .merge(detected)
     .merge(
       resourceFromAttributes({
-        "service.name": SERVICE ?? "undefined-service",
-        "service.namespace": "omnixys",
-        "service.instance.id": process.pid,
+        'service.name': SERVICE ?? 'undefined-service',
+        'service.namespace': 'omnixys',
+        'service.instance.id': process.pid,
       }),
     );
 
@@ -59,7 +59,7 @@ export async function startOtelSDK(): Promise<void> {
   const prometheusExporter = new PrometheusExporter(
     {
       port: PORT + 10000,
-      endpoint: "/metrics",
+      endpoint: '/metrics',
     },
     () => {
       logger.log(`📊 Prometheus läuft auf http://localhost:${PORT + 10000}/metrics`);
@@ -78,10 +78,10 @@ export async function startOtelSDK(): Promise<void> {
     metricReaders: [prometheusExporter],
 
     instrumentations: getNodeAutoInstrumentations({
-      "@opentelemetry/instrumentation-http": { enabled: true },
-      "@opentelemetry/instrumentation-nestjs-core": { enabled: true },
-      "@opentelemetry/instrumentation-express": { enabled: true },
-      "@opentelemetry/instrumentation-kafkajs": { enabled: true },
+      '@opentelemetry/instrumentation-http': { enabled: true },
+      '@opentelemetry/instrumentation-nestjs-core': { enabled: true },
+      '@opentelemetry/instrumentation-express': { enabled: true },
+      '@opentelemetry/instrumentation-kafkajs': { enabled: true },
     }),
   });
 
@@ -96,7 +96,7 @@ export async function shutdownOtelSDK(): Promise<void> {
     return;
   }
 
-  logger.log("🛑 Stoppe OpenTelemetry SDK…");
+  logger.log('🛑 Stoppe OpenTelemetry SDK…');
   await sdk.shutdown();
-  logger.log("🧹 OpenTelemetry SDK wurde sauber gestoppt.");
+  logger.log('🧹 OpenTelemetry SDK wurde sauber gestoppt.');
 }

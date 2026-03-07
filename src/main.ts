@@ -14,21 +14,20 @@
  *
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
-import "reflect-metadata";
-import "./config/otel.js";
-import { startOtelSDK } from "./config/otel.js";
-import compress from "@fastify/compress";
-import cookie from "@fastify/cookie";
-import cors from "@fastify/cors";
-import helmet from "@fastify/helmet";
-import rateLimit from "@fastify/rate-limit";
+import 'reflect-metadata';
+import './config/otel.js';
+import compress from '@fastify/compress';
+import cookie from '@fastify/cookie';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
 // import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from "@nestjs/config";
-import { NestFactory } from "@nestjs/core";
-import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
-import { AppModule } from "./app.module.js";
-import { corsOptions } from "./config/cors.js";
-
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
+import { AppModule } from './app.module.js';
+import { corsOptions } from './config/cors.js';
+import { startOtelSDK } from './config/otel.js';
 
 /**
  * @file main.ts
@@ -78,7 +77,7 @@ async function bootstrap(): Promise<void> {
        */
       serializerOpts: {
         replacer: (_: string, value: unknown) =>
-          typeof value === "bigint" ? Number(value) : value,
+          typeof value === 'bigint' ? Number(value) : value,
       },
     }),
   );
@@ -117,7 +116,7 @@ async function bootstrap(): Promise<void> {
    */
   await app.register(compress as any, {
     global: true,
-    encodings: ["br", "gzip", "deflate"],
+    encodings: ['br', 'gzip', 'deflate'],
     threshold: 1024, // nur komprimieren ab 1 KB
   });
 
@@ -129,11 +128,11 @@ async function bootstrap(): Promise<void> {
    */
   await app.register(rateLimit as any, {
     max: 100, // max. Requests pro Minute
-    timeWindow: "1 minute",
+    timeWindow: '1 minute',
   });
 
   await app.register(cookie as any, {
-    secret: process.env.COOKIE_SECRET ?? "omnixys-default-secret",
+    secret: process.env.COOKIE_SECRET ?? 'omnixys-default-secret',
   });
 
   // ======================================================
@@ -149,7 +148,7 @@ async function bootstrap(): Promise<void> {
   const config = app.get(ConfigService);
 
   /** Port-Definition (Standard: 4000) */
-  const port = Number(config.get("PORT") ?? 4000);
+  const port = Number(config.get('PORT') ?? 4000);
 
   // ======================================================
   // 🧩 VALIDATION
@@ -190,7 +189,7 @@ async function bootstrap(): Promise<void> {
    * - Bindet auf 0.0.0.0 (Docker-kompatibel)
    * - Gibt Port über ENV vor
    */
-  await app.listen(port, "0.0.0.0");
+  await app.listen(port, '0.0.0.0');
 
   console.debug(`✅ Authentication-Service läuft auf Port: ${port}`);
 }

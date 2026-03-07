@@ -26,10 +26,7 @@
  */
 export interface KafkaEnvelope<
   TPayload = unknown,
-  TTrace extends Record<string, string | undefined> = Record<
-    string,
-    string | undefined
-  >,
+  TTrace extends Record<string, string | undefined> = Record<string, string | undefined>,
 > {
   /**
    * Event-Name (z. B. "acceptRsvp", "deleteUser")

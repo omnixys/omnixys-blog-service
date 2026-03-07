@@ -15,12 +15,12 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { resolve } from "node:path";
-import type { DestinationStream } from "pino";
-import pino, { type Logger } from "pino";
-import type { PrettyOptions } from "pino-pretty";
-import { env } from "./env.js";
-import { nodeConfig } from "./node.js";
+import { resolve } from 'node:path';
+import type { DestinationStream } from 'pino';
+import pino, { type Logger } from 'pino';
+import type { PrettyOptions } from 'pino-pretty';
+import { env } from './env.js';
+import { nodeConfig } from './node.js';
 
 /**
  * Dynamische Logger-Konfiguration für Omnixys-Microservices.
@@ -30,28 +30,28 @@ const { nodeEnv } = nodeConfig;
 const { LOG_DEFAULT, LOG_DIRECTORY, LOG_FILE_DEFAULT_NAME, LOG_PRETTY, LOG_LEVEL } = env;
 
 const logFile = resolve(LOG_DIRECTORY, LOG_FILE_DEFAULT_NAME);
-const isProd = nodeEnv === "production";
+const isProd = nodeEnv === 'production';
 const pretty = LOG_PRETTY && !isProd;
 
 /** Standard-LogLevel */
-const logLevel = isProd ? "info" : LOG_LEVEL;
+const logLevel = isProd ? 'info' : LOG_LEVEL;
 
 /** Datei-Transport */
 const fileTarget = {
   level: logLevel,
-  target: "pino/file",
+  target: 'pino/file',
   options: { destination: logFile, mkdir: true },
 };
 
 /** Pretty-Transport */
 const prettyTarget = {
   level: logLevel,
-  target: "pino-pretty",
+  target: 'pino-pretty',
   options: {
-    translateTime: "SYS:standard",
+    translateTime: 'SYS:standard',
     singleLine: true,
     colorize: true,
-    ignore: "pid,hostname",
+    ignore: 'pid,hostname',
   } satisfies PrettyOptions,
 };
 

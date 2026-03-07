@@ -13,13 +13,14 @@
  * See the GNU General Public License for more details.
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
+
+import { Inject, Injectable, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common';
+import type { Producer, ProducerRecord } from 'kafkajs';
 import { KafkaCircuitBreaker } from '../config/kafka-circuit-breaker.js';
 import { setGlobalKafkaProducer } from '../logger/logger-plus.service.js';
 import type { TraceContext } from '../trace/trace-context.util.js';
 import type { KafkaEnvelope } from './decorators/kafka-envelope.type.js';
 import { KafkaHeaderBuilder } from './kafka-header-builder.js';
-import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import type { Producer, ProducerRecord } from 'kafkajs';
 
 /**
  * Verwaltet den Kafka Producer als langlebige, wiederverwendbare Instanz.

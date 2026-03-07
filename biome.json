@@ -11,7 +11,7 @@
       "unsafeParameterDecoratorsEnabled": true
     },
     "formatter": {
-      "quoteStyle": "double",
+      "quoteStyle": "single",
       "trailingCommas": "all",
       "semicolons": "always"
     }
@@ -19,14 +19,7 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!node_modules",
-      "!.next",
-      "!dist",
-      "!build",
-      "!coverage"
-    ]
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!coverage"]
   },
   "formatter": {
     "enabled": true,

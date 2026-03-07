@@ -15,14 +15,11 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { kafka, kafkaProducer } from '../config/kafka.js';
-import {
-  LoggerPlusService,
-  setGlobalKafkaProducer,
-} from '../logger/logger-plus.service.js';
-import { KafkaProducerService } from './kafka-producer.service.js';
-import type { Provider, OnModuleDestroy } from '@nestjs/common';
+import type { OnModuleDestroy, Provider } from '@nestjs/common';
 import type { Kafka, Producer } from 'kafkajs';
+import { kafka, kafkaProducer } from '../config/kafka.js';
+import { LoggerPlusService, setGlobalKafkaProducer } from '../logger/logger-plus.service.js';
+import { KafkaProducerService } from './kafka-producer.service.js';
 
 /**
  * Injection tokens for Kafka services.

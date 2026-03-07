@@ -5,8 +5,8 @@
  * For full license text, see <https://www.gnu.org/licenses/>.
  */
 
-import { parentLogger } from '../config/logger.js';
 import type { Logger } from 'pino';
+import { parentLogger } from '../config/logger.js';
 
 /**
  * Liefert einen kontextgebundenen Pino-Logger.

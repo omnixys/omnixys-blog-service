@@ -34,9 +34,7 @@ export class TraceContextUtil {
    *
    * Unterstützt sowohl B3- als auch W3C Trace Context (z.B. traceparent).
    */
-  static fromHeaders(
-    headers: Record<string, unknown> | undefined,
-  ): TraceContext {
+  static fromHeaders(headers: Record<string, unknown> | undefined): TraceContext {
     if (!headers) {
       return {};
     }

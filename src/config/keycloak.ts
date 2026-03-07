@@ -15,9 +15,9 @@
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
 
-import { Agent } from "node:https";
-import { env } from "./env.js";
-import { httpsOptions } from "./https.js";
+import { Agent } from 'node:https';
+import { env } from './env.js';
+import { httpsOptions } from './https.js';
 
 const { KC_CLIENT_ID, KC_REALM, KC_URL, KC_CLIENT_SECRET } = env;
 
