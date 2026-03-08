@@ -1,5 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 function fix(dir) {
   for (const f of fs.readdirSync(dir)) {
@@ -10,8 +10,8 @@ function fix(dir) {
       continue;
     }
 
-    if (p.endsWith(".ts")) {
-      let c = fs.readFileSync(p, "utf8");
+    if (p.endsWith('.ts')) {
+      let c = fs.readFileSync(p, 'utf8');
 
       c = c.replace(/from ['"](\.\/[^'"]+)(?<!\.js)['"]/g, 'from "$1.js"');
       c = c.replace(/from ['"](\.\.\/[^'"]+)(?<!\.js)['"]/g, 'from "$1.js"');
@@ -21,6 +21,6 @@ function fix(dir) {
   }
 }
 
-fix("./src");
+fix('./src');
 
-console.log("✅ Imports fixed");
+console.log('✅ Imports fixed');

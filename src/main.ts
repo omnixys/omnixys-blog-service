@@ -14,13 +14,14 @@
  *
  * For more information, visit <https://www.gnu.org/licenses/>.
  */
-import 'reflect-metadata';
-import './config/otel.js';
+/** biome-ignore-all lint/suspicious/noExplicitAny: kp*/
 import compress from '@fastify/compress';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import 'reflect-metadata';
+import './config/otel.js';
 // import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -191,7 +192,7 @@ async function bootstrap(): Promise<void> {
    */
   await app.listen(port, '0.0.0.0');
 
-  console.debug(`✅ Authentication-Service läuft auf Port: ${port}`);
+  console.debug(`✅ Blog-Service läuft auf Port: ${port}`);
 }
 
 // ======================================================

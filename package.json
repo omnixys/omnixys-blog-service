@@ -150,7 +150,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "biome check --write"
+      "biome check --write --files-ignore-unknown=true"
     ],
     "*.{json,css,md}": [
       "biome format --write"
