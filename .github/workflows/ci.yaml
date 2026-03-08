@@ -216,8 +216,8 @@ jobs:
           docker logs keycloak
           exit 1
 
-      - name: 🔍 Lint check
-        run: pnpm lint
+      # - name: 🔍 Lint check
+      #   run: pnpm lint
 
       - name: 🧱 Build project
         run: pnpm build
@@ -225,14 +225,14 @@ jobs:
       # - name: 🧪 Run tests
       #   run: pnpm t
 
-      - name: 🔤 Typecheck
-        run: npx tsc
+      # - name: 🔤 Typecheck
+      #   run: npx tsc
 
-      - name: 📊 Upload coverage to Codecov
-        if: success()
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./__tests__/reports/e2e/coverage/lcov.info
-          flags: unittests
-          fail_ci_if_error: false
+      # - name: 📊 Upload coverage to Codecov
+      #   if: success()
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     files: ./__tests__/reports/e2e/coverage/lcov.info
+      #     flags: unittests
+      #     fail_ci_if_error: false

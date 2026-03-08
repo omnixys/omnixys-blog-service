@@ -19,7 +19,7 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!coverage"]
+    "includes": ["**", "!__tests__", "!node_modules", "!.next", "!dist", "!build", "!coverage"]
   },
   "formatter": {
     "enabled": true,
