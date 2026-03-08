@@ -3,6 +3,16 @@
 All notable changes in this project will be documented in this file.
 
 
+## [1.0.1](https://github.com/omnixys/omnixys-blog-service/compare/v1.0.0...v1.0.1) (2026-03-08)
+
+### Ci
+
+* **Ci:** Disable CI lint/typecheck; update tooling configs ([](https://github.com/omnixys/omnixys-blog-service/commit/5496c1134cdeb5ee905ac553db9de9f40c9082f5))
+
+### Other
+
+* **Other:** Merge branch 'main' of https://github.com/omnixys/blog ([](https://github.com/omnixys/omnixys-blog-service/commit/26d574970886715f1f3c6c188cc18d2a49f1e623))
+
 ## 1.0.0 (2026-03-08)
 
 ### Biome
